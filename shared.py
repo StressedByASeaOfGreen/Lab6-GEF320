@@ -362,12 +362,12 @@ class Cilia(Organ): #movement organ
             self.host().f_world().move(self.host(), bearing)
 
 
-class PhotoGland(Organ):
+class PhotoGland(Organ): # free energy
     F_CREATION_COST = CREATION_COST = 250
     F_MAINTENANCE_COST = MAINTENANCE_COST = -150
 
 
-class Propagator(Organ, ABC):
+class Propagator(Organ, ABC): # birth
     F_CREATION_COST = CREATION_COST = 50
     F_MAINTENANCE_COST = MAINTENANCE_COST = 5
     F_USE_COST = USE_COST = 100
