@@ -19,14 +19,16 @@ import tkinter as tk
 from competitors.HuntingInstructors import Hunter
 from competitors.AgrarianInstructors import SuperPlant
 from competitors.safe import SafeBug
-#from competitors.wei import Hatsune_Miku
+from competitors.wei import Hatsune_Miku
 from competitors.PhunGuy import PhunGuy
-#from competitors.nuclear import AdaptivePlant
+from competitors.nuclear import BB
+from competitors.bomb import StarveBomb
+
 
 from framework import BugBattle
 
 WORLD_WIDTH = 100
-COMPETITOR_CLASSES = (Hunter, SuperPlant, SafeBug, PhunGuy )
+COMPETITOR_CLASSES = (Hunter,Hatsune_Miku, SuperPlant, SafeBug, PhunGuy, BB, StarveBomb )
 
 if __name__ == '__main__':
     root = tk.Tk()

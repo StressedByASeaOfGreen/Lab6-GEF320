@@ -7,6 +7,7 @@ class SafeBug(Creature):
     Designed not to die immediately.
     """
 
+    min_baby_cost = Propagator.CREATION_COST + PhotoGland.CREATION_COST + 1
     __count = 0
 
     def __init__(self):
@@ -24,29 +25,26 @@ class SafeBug(Creature):
         SafeBug.__count -= 1
 
     def do_turn(self):
-        # Only act if we have *positive* usable strength
-        s = self.strength()
-        if s <= 0:
-            return
+        if not (self.womb and self.leaves < Creature.MAX_ORGANS-1):
+            self.make_organ()
 
-        # Build womb only when affordable
-        if not self.womb and s > Propagator.CREATION_COST:
+
+        # Reproduce only when clearly safe
+        else:
+            while self.strength() > (self.min_baby_cost + Propagator.USE_COST)*4:
+                self.womb.give_birth(self.min_baby_cost, Direction.random())
+
+
+    def make_organ(self):
+        # Build womb if affordable and not already created
+        if not self.womb and self.strength() > Propagator.CREATION_COST:
             self.womb = SafeProp(self)
-            return
 
-        # Build leaves one at a time only when safe
-        if self.leaves < Creature.MAX_ORGANS - 1 and s > PhotoGland.CREATION_COST:
+        # Build leaves one at a time, checking strength each iteration
+        while self.leaves < Creature.MAX_ORGANS - 1 and self.strength() > PhotoGland.CREATION_COST:
             PhotoGland(self)
             self.leaves += 1
-            return
 
-        # Only try to reproduce when clearly safe
-        if self.womb:
-            baby_cost = SafeProp.min_baby_cost
-            if s > baby_cost + Propagator.USE_COST:
-                self.womb.give_birth(baby_cost, Direction.random())
 class SafeProp(Propagator):
-    min_baby_cost = Propagator.CREATION_COST + PhotoGland.CREATION_COST + 1
-
     def make_child(self):
         return SafeBug()
