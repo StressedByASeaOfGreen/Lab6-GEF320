@@ -15,7 +15,7 @@ implementations in C++ and Java by Scott Knight and Greg Phillips
 
 
 import tkinter as tk
-"""
+
 from competitors.HuntingInstructors import Hunter
 from competitors.AgrarianInstructors import SuperPlant
 from competitors.safe import SafeBug
@@ -23,15 +23,15 @@ from competitors.wei import Hatsune_Miku
 from competitors.PhunGuy import PhunGuy
 from competitors.nuclear import BB
 from competitors.bomb import StarveBomb
-"""
-from malisius_comp.PhunGuy import PhunGuy
-from malisius_comp.TheBug import TheBug
+
+#from malisius_comp.PhunGuy import PhunGuy
+#from malisius_comp.TheBug import TheBug
 
 from framework import BugBattle
 
 WORLD_WIDTH = 100
-#COMPETITOR_CLASSES = (Hunter,Hatsune_Miku, SuperPlant, SafeBug, PhunGuy, BB, StarveBomb )
-COMPETITOR_CLASSES = (PhunGuy, TheBug)
+COMPETITOR_CLASSES = (Hunter,Hatsune_Miku, SuperPlant, SafeBug, PhunGuy, BB, StarveBomb )
+#COMPETITOR_CLASSES = (PhunGuy, TheBug)
 
 if __name__ == '__main__':
     root = tk.Tk()

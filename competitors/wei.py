@@ -25,7 +25,7 @@ class Hatsune_Miku(Creature):
     def move_rand(self,blocks):
         move_to = []
         for block in blocks:
-            if block.block in [Soil,Plant]:
+            if block.type in [Soil, Plant]:
                 move_to.append(block.direction)
         if move_to:
             d = random.choice(move_to)
@@ -104,7 +104,7 @@ class Hatsune_Miku(Creature):
 
     def find_enemy(self,blocks):
         for block in blocks:
-            if block.block not in [Soil, Hatsune_Miku, Birther, Plant, PoisonDrop] and not block is None:
+            if block.type not in [Soil, Hatsune_Miku, Birther, Plant, PoisonDrop] and not block is None:
                 return True
         return False
 
@@ -115,7 +115,7 @@ class Hatsune_Miku(Creature):
         weakest = 0
         if self.energy_sensor:
             for block in blocks:
-                if block.block not in [Soil, Birther, Plant, PoisonDrop,Hatsune_Miku] and not block is None:
+                if block.type not in [Soil, Birther, Plant, PoisonDrop, Hatsune_Miku] and not block is None:
                     energy = self.energy_sensor.sense(block.direction)
                     if self.strength() - self.cilia.USE_COST - 80 > energy:
                         if energy > weakest:
@@ -137,7 +137,7 @@ class Hatsune_Miku(Creature):
     # Returns true or false based on whether a plant block was found
     def find_food(self,blocks):
         for block in blocks:
-            if block.block == Plant:
+            if block.type == Plant:
                 self.game_state.have_sex(blocks,no_go=block.direction)
                 self.cilia.move_in_direction(block.direction)
                 return True
@@ -192,12 +192,12 @@ class EarlyGame:
 
     def have_sex(self, blocks, no_go=None):
         for block in blocks:
-            if block.block == Plant and block.direction is not no_go:
+            if block.type == Plant and block.direction is not no_go:
                 #gmable that the plant block will give enough energy to the baby to make up for missing energy
                 if (self.bug.strength() - Propagator.USE_COST - 1) > self.minimum_baby_strength/2:
                     self.bug.womb.give_birth(self.minimum_baby_strength / 2, block.direction)
         for block in blocks:
-            if block.block == Soil and block.direction is not no_go:
+            if block.type == Soil and block.direction is not no_go:
                 if (self.bug.strength() - Propagator.USE_COST - 1) > self.minimum_baby_strength*2:
                     self.bug.womb.give_birth(self.minimum_baby_strength*2, block.direction)
 
@@ -236,15 +236,15 @@ class MidGame:
     def have_sex(self,blocks,no_go=None):
         plant=0
         for block in blocks:
-            if block.block == Plant and block.direction is not no_go:
+            if block.type == Plant and block.direction is not no_go:
                 plant+=1
         if plant >2:
             for block in blocks:
-                if block.block == Plant and block.direction is not no_go:
+                if block.type == Plant and block.direction is not no_go:
                     if (self.bug.strength() - Propagator.USE_COST - 1) > self.minimum_baby_strength:
                         self.bug.womb.give_birth(self.minimum_baby_strength, block.direction)
         for block in blocks:
-            if block.block == Soil and block.direction is not no_go:
+            if block.type == Soil and block.direction is not no_go:
                 if (self.bug.strength() - Propagator.USE_COST - 1) > self.minimum_baby_strength*2:
                     self.bug.womb.give_birth(self.minimum_baby_strength*2, block.direction)
 
@@ -272,7 +272,7 @@ class LateGame:
                         if self.bug.strength() >= Creature.MAX_STRENGTH*0.9:
                             for block in vision:
                                 if block.direction == Direction.SW:
-                                    if block.block is not Hatsune_Miku:
+                                    if block.type is not Hatsune_Miku:
                                         self.bug.cilia.move_in_direction(Direction.SW)
 
                 self.bug.use_extra_energy(vision)
@@ -281,7 +281,7 @@ class LateGame:
     #Whatever plant blocks exist will be gobbled up by parents so we prioritise soil instead
     def have_sex(self,blocks,no_go=None):
         for block in blocks:
-            if block.block == Soil and block.direction is not no_go:
+            if block.type == Soil and block.direction is not no_go:
                 if self.bug.strength() >= 0.9 * Creature.MAX_STRENGTH:
                     self.bug.womb.give_birth(self.minimum_baby_strength*2, block.direction)
 
