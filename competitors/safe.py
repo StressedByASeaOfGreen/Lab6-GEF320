@@ -3,7 +3,7 @@ from shared import *
 
 class SafeBug(Creature):
 
-    min_baby_cost = Propagator.CREATION_COST + PhotoGland.CREATION_COST + 1
+    min_baby_cost =  PhotoGland.CREATION_COST*2 + 1
     __count = 0
 
     def __init__(self):
